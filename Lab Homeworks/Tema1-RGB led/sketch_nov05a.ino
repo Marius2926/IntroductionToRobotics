@@ -7,6 +7,12 @@ pinMode(greenPin,OUTPUT);
 pinMode(bluePin,OUTPUT);
 }
 
+void setColor(int redValue,int greenValue, int blueValue){
+  analogWrite(redPin,redValue);
+  analogWrite(greenPin,greenValue);
+  analogWrite(bluePin,blueValue);
+}
+
 void loop() {
   int redValue,greenValue,blueValue;
   redValue=analogRead(redPotentiometer); //e o valoare intre 0 si 1023
@@ -15,8 +21,6 @@ void loop() {
   redValue=map(redValue,0,1023,0,255);
   greenValue=map(greenValue,0,1023,0,255);
   blueValue=map(blueValue,0,1023,0,255);
-  analogWrite(redPin,redValue);
-  analogWrite(greenPin,greenValue);
-  analogWrite(bluePin,blueValue);
+  setColor(redValue,greenValue,blueValue);
   delay(1);
 }
