@@ -85,6 +85,7 @@ void loop() {
    for(int i = 0; i < 4; i++){
     showDigit(i);
     displayNumber(actualNumber[i],selectedDigit[i]);
+    Serial.println(actualNumber[i]);
    }
    for(int i = 0; i < 4; i++)
     digitalWrite(digits[i],LOW);
