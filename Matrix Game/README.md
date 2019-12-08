@@ -5,7 +5,7 @@ The game presents us a DOT, who is caught in the sinking Titanic. He has to get 
 The dot will have to face a lot of levels, some of them harder than others.
 
 ### Technical details
-  * the player will have **_ a maximum of 3 lifes_** at the beginning, but if he moves fast enough and finishes the level with a high score he will get one life if he doesn't have 3 already
+  * the player will have **_ a maximum of 3 lifes _** at the beginning, but if he moves fast enough and finishes the level with a high score he will get one life if he doesn't have 3 already
   * **the faster he finishes the level, the higher the score will be**. There are also bonus dots, who will give points for score
   * every second matters because at **higher levels, Titanic will sink faster**
   * there will be a **TOP 3 highscore in the menu**, which will be saved to EEPROM with no option to reset the highscores
