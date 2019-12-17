@@ -1,4 +1,4 @@
-# ESCAPE FROM TITANIC
+# ESCAPE TITANIC
 
 The game presents us a DOT, who is caught in the sinking Titanic. He has to get on the on the deck as fast as he can because the lifeboats are limited. He doesn't know how to swim, so if the water catches him, he is dead.
 ![The map of the Titanic](./images/matrix_drawn_dots.png)
