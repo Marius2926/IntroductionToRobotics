@@ -15,3 +15,6 @@ The dot will have to face a lot of levels, some of them harder than others.
   * **_MAX7219 drive_** for connecting and controlling the matrix
   * a **_joystick_** for the movement through the menu and for the game
   * a **_16 x 2 LCD_** where the menu of the game will be displayed. The menu consists of: **Play, Settings, Highscore, Info**
+  
+## HOW TO PLAY
+  1. Because of the limitations of having just one color, the dot is spawning at every level in the same square
