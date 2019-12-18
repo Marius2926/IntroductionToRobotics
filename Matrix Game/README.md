@@ -18,3 +18,4 @@ The dot will have to face a lot of levels, some of them harder than others.
   
 ## HOW TO PLAY
   1. Because of the limitations of having just one color, the dot is spawning at every level in the same square
+     ![Spawn of the dot](./images/spawn.png)
