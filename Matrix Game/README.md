@@ -22,3 +22,5 @@ The dot will have to face a lot of levels, some of them harder than others.
   2. If you move the joystick just up, the dot will jump 2 spaces and then is going down again. If you move to the right corner up( or NE)
   the dot will jump 2 spaces up and the it moves one cell to the right(falling down if there is no floor). Similar if you move the joystick to the left corner up( or NW).
      ![Types of jump](./images/typesJump.png)
+  3. If you move the joystick just down, the dot will jump 1 space and then is going down again. If you move to the right corner up( or NE) the dot will jump 1 spaces up and the it moves one cell to the right(falling down if there is no floor). Similar if you move the joystick to the left corner up( or NW).
+     ![Types of semijump](./images/typesSemijump.png)
