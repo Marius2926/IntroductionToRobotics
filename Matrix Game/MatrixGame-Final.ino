@@ -98,7 +98,7 @@ byte levelsMap[maxLevel][8][8] = {  {
 unsigned long startSinking[maxLevel] = {3000, 2500, 3500, 5000, 4000}; //after the specified miliseconds the boat starts sinking
 bool specialLevel[maxLevel] = {false, false, false, true, true};
 byte specialRow[maxLevel] = {0, 0, 0, 4, 1}, randomColumn = 0, delayBlinkSinkedLevels = 75;
-unsigned long delaySinking, timeLastFloorSinked = 0, lastBlinkSinkedLevels = 0, delayRandomEntry = 450, lastTimeRandomEntry = 0;
+unsigned long delaySinking, timeLastFloorSinked = 0, lastBlinkSinkedLevels = 0, delayRandomEntry = 550, lastTimeRandomEntry = 0;
 byte floorNumber = 7, state = 0;
 bool sinking = false;
 const char helloPlayer[256] PROGMEM =   {0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 1, 0, 0, 0,  0, 0, 1, 1, 1, 1, 0, 0,  0, 0, 1, 1, 1, 1, 0, 0,
@@ -122,7 +122,7 @@ const char readySetGo[192] PROGMEM =  {0, 0, 0, 1, 1, 0, 0, 0,  0, 0, 0, 1, 1, 0
 const char* const stringTable[] PROGMEM = {helloPlayer,readySetGo};
 int colPosition = 0, infoMessage = 0, jumpPhase = 0, jumpDirection = 0;
 bool showInfoMessage = true;
-unsigned long pauseStartingMessage = 75, lastTimeEntered = 0, timeBetweenDisplayingPlayer = 130, lastTimeDisplayingPlayer = 0, lastTimeScrollText = 0, delayScrollText = 1200, timeFinishedLevel = 0;
+unsigned long pauseStartingMessage = 75, lastTimeEntered = 0, timeBetweenDisplayingPlayer = 130, lastTimeDisplayingPlayer = 0, lastTimeScrollText = 0, delayScrollText = 1400, timeFinishedLevel = 0;
 
 void displayToMatrix(int j, int numberOfColumns, const char* m) {
   for (int i = 0; i < 8; i++)
@@ -472,9 +472,12 @@ void loop() {
                   strcpy(scrollMessage,"       ");
                   strcpy(scrollMessage + 7,playMessage + 7);
                   showingMenu(scrollMessage);
-                  whichMessage = 3;
                   lastTimeScrollText = millis();
                 }
+                if (scrollText == true && switchJoystick == LOW and millis() - lastTimePressed >= debounceTimer) {
+                          lastTimePressed = millis();
+                          whichMessage = 3;
+                         }
               }
               else {
                 if (score > highScore) {
@@ -498,7 +501,7 @@ void loop() {
                   lastTimeScrollText = millis();
                 }
                 else {
-                  if (whichMessage == 3 && millis() - lastTimeScrollText >= delayScrollText * 2) {
+                  if (whichMessage == 3 && millis() - lastTimeScrollText >= delayScrollText) {
                     strcpy(scrollMessage, "Nice run!You can do better!     ");
                     showingMenu(scrollMessage);
                     whichMessage = 4;
