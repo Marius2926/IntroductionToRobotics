@@ -23,7 +23,7 @@ byte whichMessage = 1;
 char startMessage[33], playMessage[33], settingsMessage[33], highScoreMessage[33], finishedGameMessage[33], lostGameMessage[33], finishedLevelMessage[49], scrollMessage[33], lostLifeMessage[49]; //strings to keep the message which will be displayed
 bool enteredInfoMenuMessage = true;
 
-const byte numberOptionsMenu = 4, arrowSelection[4] = {1, 7, 16, 27}, maxLevel = 4; // number of option in the principal menu and the positions where the arrow should be draw
+const byte numberOptionsMenu = 4, arrowSelection[4] = {1, 7, 16, 27}, maxLevel = 5; // number of option in the principal menu and the positions where the arrow should be draw
 int selectedOption = 0, selectedOptionSettings = 0;
 int selectedOptionInfoMenu = 0;
 bool arrowMoved = false, secondaryArrowMoved = false, tertiaryArrowMoved = false, justStartedGame = true, justChangedLevel = true, scrollText = false;
@@ -83,12 +83,22 @@ byte levelsMap[maxLevel][8][8] = {  {
     0, 0, 0, 0, 0, 0, 0, 1,
     0, 1, 1, 1, 1, 1, 1, 0,
     1, 1, 1, 1, 1, 1, 1, 1
+  },
+    {
+    0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 0, 0, 1, 0, 0, 0, 0,
+    0, 0, 1, 1, 0, 1, 1, 0,
+    0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 0, 1, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1
   }
 };
-unsigned long startSinking[maxLevel] = {3000, 2500, 3500, 5000}; //after the specified miliseconds the boat starts sinking
-bool specialLevel[maxLevel] = {false, false, false, true};
-byte specialRow[maxLevel] = {0, 0, 0, 4}, randomColumn = 0, delayBlinkSinkedLevels = 75;
-unsigned long delaySinking, timeLastFloorSinked = 0, lastBlinkSinkedLevels = 0;
+unsigned long startSinking[maxLevel] = {3000, 2500, 3500, 5000, 4000}; //after the specified miliseconds the boat starts sinking
+bool specialLevel[maxLevel] = {false, false, false, true, true};
+byte specialRow[maxLevel] = {0, 0, 0, 4, 1}, randomColumn = 0, delayBlinkSinkedLevels = 75;
+unsigned long delaySinking, timeLastFloorSinked = 0, lastBlinkSinkedLevels = 0, delayRandomEntry = 450, lastTimeRandomEntry = 0;
 byte floorNumber = 7, state = 0;
 bool sinking = false;
 const char helloPlayer[256] PROGMEM =   {0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 1, 0, 0, 0,  0, 0, 1, 1, 1, 1, 0, 0,  0, 0, 1, 1, 1, 1, 0, 0,
@@ -378,7 +388,7 @@ void loop() {
           scrollText = false;
         }
         if (justChangedLevel) {
-            delaySinking = 800 - (actualLevel + 1) * 100;
+            delaySinking = 800 - (actualLevel + 1) * 50;
             floorNumber = 7;
             lastTimeChangedLevel = millis();
             justChangedLevel = false;
@@ -420,7 +430,12 @@ void loop() {
               } else if (whichMessage == 3 && switchJoystick == LOW and millis() - lastTimePressed >= debounceTimer) {
                 lastTimePressed = millis();
                 justChangedLevel = true;
-                score += startSinking[actualLevel] / 1000 + 8 - (timeFinishedLevel - lastTimeChangedLevel) / 1000;
+                byte actualLevelScore = startSinking[actualLevel] / 1000 + 10 - (timeFinishedLevel - lastTimeChangedLevel) / 1000;
+                score += actualLevelScore;
+                if(actualLevelScore >= 10){
+                  if(actualLives < 3)
+                    actualLives++;
+                }
                 actualLevel++;
                 setScore(score);
                 floorNumber = 7;//to prevent entering again here
@@ -550,12 +565,13 @@ void loop() {
           }
         }//the player is still playing
         else {
-          if(specialLevel[actualLevel] && millis() % 97 == 0 && player1.x >= specialRow[actualLevel]){
+          if(specialLevel[actualLevel] && millis() - lastTimeRandomEntry >= delayRandomEntry && player1.x >= specialRow[actualLevel]){
             levelsMap[actualLevel][specialRow[actualLevel]][randomColumn] = 1;
             lc.setLed(0,specialRow[actualLevel],randomColumn,true);
             randomColumn = random(8);
             lc.setLed(0,specialRow[actualLevel],randomColumn,false);
             levelsMap[actualLevel][specialRow[actualLevel]][randomColumn] = 0;
+            lastTimeRandomEntry = millis();
           }
           setLevel(actualLevel);
           setLives(actualLives);
