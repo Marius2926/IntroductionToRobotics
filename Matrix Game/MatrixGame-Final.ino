@@ -96,9 +96,9 @@ byte levelsMap[maxLevel][8][8] = {  {
   }
 };
 unsigned long startSinking[maxLevel] = {3000, 2500, 3500, 5000, 4000}; //after the specified miliseconds the boat starts sinking
-bool specialLevel[maxLevel] = {false, false, false, true, true};
+bool specialLevel[maxLevel] = {false, false, false, true, true}, stateSpecialEffect = true;
 byte specialRow[maxLevel] = {0, 0, 0, 4, 1}, randomColumn = 0, delayBlinkSinkedLevels = 75;
-unsigned long delaySinking, timeLastFloorSinked = 0, lastBlinkSinkedLevels = 0, delayRandomEntry = 550, lastTimeRandomEntry = 0;
+unsigned long delaySinking, timeLastFloorSinked = 0, lastBlinkSinkedLevels = 0, delayRandomEntry = 550, lastTimeRandomEntry = 0, lastTimeSpecialEffectPlayer = 0, delaySpecialEffect = 300;
 byte floorNumber = 7, state = 0;
 bool sinking = false;
 const char helloPlayer[256] PROGMEM =   {0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 1, 0, 0, 0,  0, 0, 1, 1, 1, 1, 0, 0,  0, 0, 1, 1, 1, 1, 0, 0,
@@ -568,6 +568,17 @@ void loop() {
           }
         }//the player is still playing
         else {
+          if(millis() - lastTimeSpecialEffectPlayer >= delaySpecialEffect){
+            lastTimeSpecialEffectPlayer = millis();
+            if(stateSpecialEffect){
+              player1.show();
+              stateSpecialEffect = false;
+            }
+            else{
+              player1.hide();
+              stateSpecialEffect = true;
+            }
+          }
           if(specialLevel[actualLevel] && millis() - lastTimeRandomEntry >= delayRandomEntry && player1.x >= specialRow[actualLevel]){
             levelsMap[actualLevel][specialRow[actualLevel]][randomColumn] = 1;
             lc.setLed(0,specialRow[actualLevel],randomColumn,true);
