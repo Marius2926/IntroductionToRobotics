@@ -31,4 +31,4 @@ The dot will have to face a lot of levels, some of them harder than others.
      
      This is how the board looks like:
      ![Game Model](./images/gameModel.jpg)
-     **_Youtube link:_**https://www.youtube.com/watch?v=Jxc0-anJIew
+     **_Youtube link:_** https://www.youtube.com/watch?v=Jxc0-anJIew
