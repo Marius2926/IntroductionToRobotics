@@ -12,7 +12,7 @@ The dot will have to face a lot of levels, some of them harder than others.
   
 ### Hardware details
   * a 8 x 8 **_matrix_** where the game will be played and there will also be some animations when powering up the Arduino board, starting a new game or making a highscore
-  * **_MAX7219 drive_** for connecting and controlling the matrix
+  * **_MAX7219 driver_** for connecting and controlling the matrix
   * a **_joystick_** for the movement through the menu and for the game
   * a **_16 x 2 LCD_** where the menu of the game will be displayed. The menu consists of: **Play, Settings, Highscore, Info**
   
