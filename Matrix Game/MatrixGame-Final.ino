@@ -29,13 +29,14 @@ int selectedOptionInfoMenu = 0;
 bool arrowMoved = false, secondaryArrowMoved = false, tertiaryArrowMoved = false, justStartedGame = true, justChangedLevel = true, scrollText = false;
 unsigned long gameStartedTime, lastTimeChangedLevel;
 int score = 0, highScore = 0;
-byte startingLevel, actualLevel, lives = 3, actualLives, githubLinkOffset = 0;
+byte actualLevel, lives = 3, actualLives, githubLinkOffset = 0;
+int startingLevel = 0;
 
 byte playMenuPositions[3] = {6, 14, 25}, settingsMenuPositions[2] = {6, 30}, highScoreMenuPositions[2] = {0, 11}, arrowSelectionSettings[2] = {0, 16}, finishedLevelPosition = 44; //the positions on the lcd where the messages will start
 const byte numberOptionsSettings = 2;
 char alphabet[38] = "_abcdefghijklmnopqrstuvwxyz0123456789";
 const byte sizeAlphabet = 37;
-byte playerName[] = {16, 12, 1, 25, 5, 18, 0, 0, 0, 0}; //default player name is : player____
+int playerName[] = {16, 12, 1, 25, 5, 18, 0, 0, 0, 0}; //default player name is : player____
 byte playerNameSize = 10;
 byte nameIndex = settingsMenuPositions[0];
 bool changingParam = false;
@@ -192,7 +193,7 @@ void setScore(int& score) {
   }
 }
 
-void setLevel(byte& level) {
+void setLevel(int level) {
   level++;
   if (level >= 10) {
     playMessage[playMenuPositions[1]] = level / 10 + '0';
@@ -200,14 +201,13 @@ void setLevel(byte& level) {
   }
   else
     playMessage[playMenuPositions[1]] = level + '0';
-  level--;
 }
 
 void setLives(int lives) {
   playMessage[playMenuPositions[0]] = lives + '0';
 }
 
-void setStartingLevel(byte& level) {
+void setStartingLevel(int& level) {
   level++;
   if (level <= 9) {
     settingsMessage[settingsMenuPositions[1]] = level + '0';
@@ -217,16 +217,16 @@ void setStartingLevel(byte& level) {
     settingsMessage[settingsMenuPositions[1]] = level / 10 + '0';
     settingsMessage[settingsMenuPositions[1] + 1] = level % 10 + '0';
   }
-  level--;
+    level--;
 }
 
 //we receive a codification which we will transform to ascii
-void setName(byte v[]) {
+void setName(int v[]) {
   for (int i = 0; i < playerNameSize; i++)
     settingsMessage[settingsMenuPositions[0] + i] = alphabet[v[i]];
 }
 
-void setNameHighScore(byte v[]) {
+void setNameHighScore(int v[]) {
   for (int i = 0; i < playerNameSize; i++)
     highScoreMessage[highScoreMenuPositions[0] + i] = alphabet[v[i]];
 }
