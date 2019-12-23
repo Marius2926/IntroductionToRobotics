@@ -374,6 +374,8 @@ void loop() {
               colPosition = 0;
             }
           }
+          enteredInfoMenuMessage = true; //to display right the info menu
+          offsetMenuMessage = 0; //to show the github link from https every time
           break;
         }
       case 0:
