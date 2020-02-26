@@ -1,1 +1,1 @@
-##Smart Cart for Restaurant
+Smart Cart for Restaurant
