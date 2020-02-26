@@ -1,1 +1,1 @@
-<h1>Smart Cart for Restaurant</h1>
+<h1><em>Smart Cart for Restaurant</em></h1>
