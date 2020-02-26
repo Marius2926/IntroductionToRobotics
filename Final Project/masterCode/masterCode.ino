@@ -1,10 +1,10 @@
-#include <SoftwareSerial.h>
 unsigned int xAxis, yAxis;
 const int xPin = A0, yPin = A1;
 const int numberOrders = 4, ordersPin[numberOrders] = {2, 3, 4, 5};
 char commandNumber;
 bool orderInProgress = false;
 unsigned long orderStarted = 0, maxOrderWait = 60000;
+//maxOrderWait is used to set the maximum time a cart is assigned to an order
 
 void setup() {
   Serial.begin(38400); // 38400 is the default communication rate of the Serial module
@@ -41,12 +41,11 @@ void loop() {
     orderStarted = millis();
   }
   if ((xAxis < 470 || xAxis > 550 || yAxis < 470 || yAxis > 550) && orderInProgress == true) {
-    // Send the values divided by 4 because only 1 byte can be sent at one moment via the serial port to the slave HC-05 Serial devicexAxis = analogRead(xPin) / 4;
+    // Send the values divided by 4 because only 1 byte can be sent at one moment via the serial port to the slave HC-05 Serial
     yAxis /= 4;
     xAxis /= 4;
     Serial.write(xAxis);
     Serial.write(yAxis);
-    delay(20);
-    //Serial.flush();
+    delay(20); //a small delay for stability
   }
 }
