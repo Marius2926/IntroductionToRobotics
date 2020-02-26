@@ -20,4 +20,5 @@
   After you make an order:
     <p align = "center"><img src="./Images/20200225_224521.jpg" width = "400" height = "200"> </p>
   The cart is easy to control because of the joystick and has enough space for a bottle, or a small plate. The remote control sends the X axis value and Y axis value to the cart where is set the direction of the cart and the speed.<br><br>
-  <a href = "https://www.youtube.com/watch?v=1a4pfF7IbWM&feature=youtu.be" > Youtube video </a>
+  <a href = "https://www.youtube.com/watch?v=1a4pfF7IbWM&feature=youtu.be" > Youtube video </a><br>
+  <a href = "https://docs.google.com/spreadsheets/d/1Htry010sDG5Vxl1XxuDkIDsEU6a6pIBbHVVmY9l-o_E/edit#gid=1914937528" > BOM file </a>
