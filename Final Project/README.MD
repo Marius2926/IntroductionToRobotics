@@ -15,5 +15,5 @@
 <h2> Technical details</h2>
   First thing to do was to connect the master bluetooth to the slave bluetooth. The master bluetooth will be the bluetooth module on the remote control and the slave will be the one on the cart. The connection is made entering the bluetooth in AT mode and binding the master bluetooth to the address of the slave. <br>
   The customer can not drive the cart untile they push a button to make an order.<br>
-  
+  <p align = "center">This is the default LCD Display message: <img src="./Images/20200225_224500.jpg" width = "400" height = "200"> </p>
   The cart is easy to control because of the joystick. The remote control sends the X axis value and Y axis value to the cart where is set the direction of the cart and the speed.
