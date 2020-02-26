@@ -8,7 +8,7 @@ AF_DCMotor motor4(4);
 
 //initializing the lcd
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
-
+int lcdBrightLed = 2;
 unsigned int xAxis, yAxis;
 unsigned int  x = 0;
 unsigned int  y = 0;
@@ -16,16 +16,14 @@ unsigned int productId, hasOrder = 0;
 //hasOrder is different than 0 when the client presses a button.
 //productId knows which product is mapped to that value
 bool orderInProgress = false;
-unsigned long orderStarted = 0, maxOrderWait = 60000
-
-;
+unsigned long orderStarted = 0, maxOrderWait = 60000; // the same meaning as in the master.ino code
 
 unsigned int motorSpeedA = 0;
 unsigned int motorSpeedB = 0;
 
 void setup() {
-  pinMode(2,OUTPUT);
-  digitalWrite(2,LOW);
+  pinMode(lcdBrightLed,OUTPUT);
+  digitalWrite(lcdBrightLed,LOW);
   lcd.begin(16, 2);
   motor1.run(RELEASE); //sets the speed to 0 and removes power from the motor
   motor2.run(RELEASE);
@@ -41,19 +39,19 @@ void loop() {
   y = 510 / 4;
   productId = 0;
   // Read the incoming data from the Joystick, or the master Bluetooth device
-  while (Serial.available() >= 2) {
-    x = Serial.read();
+  while (Serial.available() >= 2 && orderInProgress) {
+    x = Serial.read();//read the values of the joystick with a small delay to get the right values
     delay(10);
     y = Serial.read();
   }
 
-  if(millis() - orderStarted >= maxOrderWait && orderInProgress){
+  if(millis() - orderStarted >= maxOrderWait && orderInProgress){ //if the time for the order expires, then the cart can take another order
     orderInProgress = false;
     lcd.clear();
     lcd.setCursor(0,0);
     lcd.print("You can order");
   }
-  if (Serial.available() && orderInProgress == false) {
+  if (Serial.available() && orderInProgress == false) { //if the cart has no order assigned
     hasOrder = Serial.read();
     if (hasOrder > 0 && hasOrder < 5) {
       lcd.clear();
@@ -67,10 +65,11 @@ void loop() {
   }
     xAxis = x * 4;
     yAxis = y * 4;
+  //yAxis is used to drive the cart forward and backward
   if (xAxis < 470 || xAxis > 550 || yAxis < 470 || yAxis > 550) {
     if (yAxis < 470) {
       //backwards
-      // Convert the declining Y-axis readings for going backward from 470 to 0 into 0 to 255 value for the PWM signal for increasing the motor speed
+      // Convert the declining Y-axis readings for going backward from 470 to 0 into 0 to 255
       motorSpeedA = map(yAxis, 470, 0, 0, 255);
       motorSpeedB = map(yAxis, 470, 0, 0, 255);
       motor1.run(FORWARD);
@@ -81,7 +80,7 @@ void loop() {
     else {
       if (yAxis > 550) {
         //forward
-        // Convert the increasing Y-axis readings for going forward from 550 to 1023 into 0 to 255 value for the PWM signal for increasing the motor speed
+        // Convert the increasing Y-axis readings for going forward from 550 to 1023 into 0 to 255
         motorSpeedA = map(yAxis, 550, 1023, 0, 255);
         motorSpeedB = map(yAxis, 550, 1023, 0, 255);
         motor1.run(BACKWARD);
@@ -95,9 +94,8 @@ void loop() {
     }
     // X-axis used for left and right control
     if (xAxis < 470) {
-      // Convert the declining X-axis readings from 470 to 0 into increasing 0 to 255 value
       int xMapped = map(xAxis, 470, 0, 0, 255);
-      // Move to left - decrease left motor speed, increase right motor speed
+      // Move to left - decrease left motor speed, increase right motor speed in order to make the turn to the left
       motorSpeedA = motorSpeedA - xMapped;
       motorSpeedB = motorSpeedB + xMapped;
       // Confine the range from 0 to 255
@@ -111,7 +109,7 @@ void loop() {
 
     if (xAxis > 550) {
       int xMapped = map(xAxis, 550, 1023, 0, 255);
-      // Move right - decrease right motor speed, increase left motor speed
+      // Move right - decrease right motor speed, increase left motor speed in order to make the turn to the right
       motorSpeedA = motorSpeedA + xMapped;
       motorSpeedB = motorSpeedB - xMapped;
       // Confine the range from 0 to 255
@@ -122,6 +120,7 @@ void loop() {
         motorSpeedB = 0;
       }
     }
+    //this is to prevent the running of the motors with no use, because the cart doesn't move at that speed
     if (motorSpeedA < 70) {
       motorSpeedA = 0;
     }
